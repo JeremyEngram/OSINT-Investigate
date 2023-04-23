@@ -1,0 +1,46 @@
+#!/bin/bash
+
+# Prompt user for input
+read -p "Enter full name: " name
+read -p "Enter email address: " email
+read -p "Enter phone number: " phone
+read -p "Enter home address: " address
+read -p "Enter date of birth (YYYY-MM-DD): " dob
+read -p "Enter city and state: " city_state
+
+# Remove spaces from name and city/state for URL formatting
+formatted_name=$(echo $name | tr '[:upper:]' '[:lower:]' | tr ' ' '+')
+formatted_city_state=$(echo $city_state | tr '[:upper:]' '[:lower:]' | tr ' ' '-')
+
+# Run OSINT queries
+echo "Gathering OSINT for $name..."
+echo "---------------------------------------"
+echo "Google search results:"
+echo "---------------------"
+search_url="https://www.google.com/search?q=${formatted_name}+${formatted_city_state}"
+search_results=$(curl -s "$search_url" | grep -Eo "https?://[^[:space:]]+" | grep -E "google.com/url\?q=" | cut -d'=' -f2 | cut -d'&' -f1 | sed 's/%[0-9A-Za-z][0-9A-Za-z]/\ /g' | sed 's/+/ /g')
+echo "$search_results"
+
+echo ""
+
+echo "Whitepages search results:"
+echo "--------------------------"
+whitepages_url="https://www.whitepages.com/name/${formatted_name}/${formatted_city_state}"
+whitepages_results=$(curl -s "$whitepages_url" | grep -Eo 'href="[^"]*"' | grep '/name/' | cut -d'"' -f2 | sed 's/\&amp\;/\&/g')
+echo "$whitepages_results"
+
+echo ""
+
+echo "DOB search results:"
+echo "-------------------"
+dob_url="https://www.familysearch.org/search/results?count=20&query=%2Bgivenname%3A${formatted_name}%20%2Bsurname%3A%20%2Bbirth_place%3A${formatted_city_state}%20%2Bbirth_year%3A${dob}"
+dob_results=$(curl -s "$dob_url" | grep -Eo 'https?://[^[:space:]]+' | grep '/tree/' | uniq)
+echo "$dob_results"
+
+# Output to CSV if option is selected
+if [ "$1" = "-csv" ]; then
+  echo ""
+  echo "Outputting results to osint_report.csv..."
+  echo "name,email,phone,address,dob,city_state,google_results,whitepages_results,dob_results" > osint_report.csv
+  echo "$name,$email,$phone,$address,$dob,$city_state,\"$search_results\",\"$whitepages_results\",\"$dob_results\"" >> osint_report.csv
+fi

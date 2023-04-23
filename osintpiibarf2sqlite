@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# read inputs
+echo "Enter target's name: "
+read name
+echo "Enter target's phone number: "
+read phone_number
+echo "Enter target's address: "
+read address
+echo "Enter target's date of birth (yyyy-mm-dd): "
+read dob
+echo "Enter target's city: "
+read city
+echo "Enter target's state: "
+read state
+
+# create database and table if they don't exist
+sqlite3 osint.db "CREATE TABLE IF NOT EXISTS targets (name TEXT, phone_number TEXT, address TEXT, dob TEXT, city TEXT, state TEXT);"
+
+# insert data into table
+sqlite3 osint.db "INSERT INTO targets VALUES ('$name', '$phone_number', '$address', '$dob', '$city', '$state');"
+
+# display confirmation message
+echo "Target information has been added to the database."

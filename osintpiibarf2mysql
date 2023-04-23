@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# read inputs
+echo "Enter target's name: "
+read name
+echo "Enter target's phone number: "
+read phone_number
+echo "Enter target's address: "
+read address
+echo "Enter target's date of birth (yyyy-mm-dd): "
+read dob
+echo "Enter target's city: "
+read city
+echo "Enter target's state: "
+read state
+
+# set database credentials
+DB_HOST="localhost"
+DB_USER="root"
+DB_PASS="password"
+DB_NAME="osint"
+
+# insert data into table
+mysql -h "$DB_HOST" -u "$DB_USER" -p"$DB_PASS" -D "$DB_NAME" -e "INSERT INTO targets (name, phone_number, address, dob, city, state) VALUES ('$name', '$phone_number', '$address', '$dob', '$city', '$state');"
+
+# display confirmation message
+echo "Target information has been added to the database."

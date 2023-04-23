@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Profile Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.3);
+        }
+
+        .avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin-bottom: 20px;
+        }
+
+        .info {
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        h1, h2 {
+            font-weight: normal;
+        }
+
+        h1 {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            margin: 0;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="avatar.jpg" alt="Avatar" class="avatar">
+        <div class="info">
+            <h1>John Doe</h1>
+            <p>Web Developer</p>
+        </div>
+        <div class="details">
+            <h2>Personal Details</h2>
+            <p><strong>Email:</strong> john.doe@example.com</p>
+            <p><strong>Phone:</strong> 555-555-5555</p>
+            <p><strong>Address:</strong> 123 Main St, Anytown USA</p>
+            <p><strong>Date of Birth:</strong> January 1, 1990</p>
+            <p><strong>City:</strong> Anytown</p>
+            <p><strong>State:</strong> USA</p>
+        </div>
+        <a href="#" class="button">Edit Profile</a>
+    </div>
+</body>
+</html>
